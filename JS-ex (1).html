@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>ex-2</title>
+</head>
+<body>
+    <input id = "notad" type="number" placeholder="Digite sua idade: ">
+<button id="botaod">Classificar nota:</button>
+<p id="resultd">Você foi... </p>
+
+<script>
+    let nota = document.getElementById("notad");
+    let botao = document.getElementById("botaod");
+    let result = document.getElementById("resultd");
+
+botao.addEventListener("click", function(){
+        let valor = parseInt(nota.value);
+
+    if(valor<0 || valor>10){
+        result.textContent = "Coloque um valor válido(, 0 a 10.)"
+        }
+   else if(valor>=7){
+            result.textContent = "APROVADO"
+    } 
+    else if(valor>=4) {
+            result.textContent = "RECUPERAÇÃO"
+    }
+    
+    else{
+        result.textContent="REPROVADO"
+    }
+    });
+</script>
+
+</body>
+</html>

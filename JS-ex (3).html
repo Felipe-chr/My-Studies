@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Atividade</title>
+</head>
+<body>
+    <input id="idade" type="number" placeholder="Digite sua idade:">
+    <button id="botao1">Verificar</button>
+    <p id="result">Você é...</p>
+
+    <script>
+        // Selecionando os elementos
+        let campoIdade = document.getElementById("idade");
+        let botao = document.getElementById("botao1");
+        let result = document.getElementById("result");
+
+        botao.addEventListener("click", function(){
+            // Pegamos o .value do campo correto e convertemos para número
+            let valor = parseInt(campoIdade.value);
+
+            // Verificamos se o usuário digitou algo válido
+            if (isNaN(valor)) {
+                result.textContent = "Por favor, digite um número válido.";
+                return;
+            }
+
+            if(valor >= 18){
+                result.textContent = "Você é maior de idade.";
+            }
+            else{
+                result.textContent = "Você é menor de idade.";
+            }
+        });
+    </script>
+</body>
+</html>
