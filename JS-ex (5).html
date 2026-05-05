@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input id="afirmd" type="text" placeholder="Digite Sim ou Não:">
+    <button id="buttond">Verificar</button>
+    <p id="resultd">Resposta... </p>
+
+<script>
+    let afirm = document.getElementById("afirmd");
+    let button = document.getElementById("buttond");
+    let result = document.getElementById("resultd");
+
+button.addEventListener("click", function(){
+    let value = afirm.value.toLowerCase();
+        if(value==="sim"){
+            result.textContent = "Você digitou SIM."
+        }
+        else if(value==="não"){
+            result.textContent = "Você digitou NÃO."
+        }
+        else{
+            result.textContent = "Digite Sim ou Não. "
+        }
+});
+</script>
+</body>
+</html>
