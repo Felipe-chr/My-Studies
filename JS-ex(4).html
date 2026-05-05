@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+    <style>
+        .inputStyle{
+            width: 40ch;
+        }
+.buttonStyle {
+    background: linear-gradient(to right, #03b630, #ffcc00, #cb0909); 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.buttonStyle:hover{
+    color: black;
+}
+.container{
+    width: 80px;
+    height: 220px;
+    background-color: #333;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+.red, .yellow, .green{
+    width: 50px;
+    height: 50px;
+    background-color: #111; /* Cor apagada */
+    border-radius: 50%;
+}
+    </style>
+
+</head>
+<body>
+    <div>
+    <input class="inputStyle" id="colord" type="text" placeholder="Digite uma cor(Verde, amarelo ou vermelho)">
+    <button class="buttonStyle" id="buttond">Enviar mensagem</button>
+    <p id="resultd">ORIENTAÇAO</p>
+</div>
+<div class="container">
+    <div class="red"></div>
+    <div class="yellow"></div>
+    <div class="green"></div>
+</div>
+<script>
+    let colorInput = document.getElementById("colord");
+    let button = document.getElementById("buttond");
+    let result = document.getElementById("resultd");
+
+    let divRed = document.querySelector(".red");
+    let divYellow = document.querySelector(".yellow");
+    let divGreen = document.querySelector(".green");
+
+    button.addEventListener("click", function(){
+        let value = colorInput.value.toLowerCase();
+
+        divRed.style.backgroundColor = "#111";
+        divYellow.style.backgroundColor = "#111";
+        divGreen.style.backgroundColor = "#111";
+
+        if (value === "verde") {
+            result.textContent = "Vá em frente";
+            divGreen.style.backgroundColor = "#03b630";
+        } 
+        else if (value === "amarelo") {
+            result.textContent = "Atenção!";
+            divYellow.style.backgroundColor = "#ffcc00";
+        } 
+        else if (value === "vermelho") {
+            result.textContent = "Pare!";
+            divRed.style.backgroundColor = "#cb0909";
+        } 
+        else {
+            result.textContent = "Cor inválida! Digite Verde, Amarelo ou Vermelho.";
+        }
+    });
+</script>
+
+
+</body>
+</html>
