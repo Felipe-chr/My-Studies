@@ -33,5 +33,24 @@
     <input class="inputStyle" id="numd" type="number" placeholder="Digite seu número: ">
     <button class="button" id="botaod">Verificar</button>
 </div>
+    <p id="resultd">Seu número é... </p>
+
+<script>
+    let num = document.getElementById("numd");
+    let botao = document.getElementById("botaod");
+    let result = document.getElementById("resultd");
+
+botao.addEventListener("click", function(){
+    let value = parseInt(num.value)
+    
+    if(value % 2 === 0){
+        result.textContent = "Seu número é par"
+    }
+    else{
+        result.textContent = "Seu número é ímpar"
+    }
+});
+</script>
+
 </body>
 </html>
