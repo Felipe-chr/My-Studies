@@ -5,15 +5,13 @@
 </head>
 <body>
 <script>
-    
-     var animal;
-    function sayAnimal (){
-   
-    animal = "cat";
-    console.log(animal);
-}
-sayAnimal()
-console.log(animal)
+  const ireland = ['Dublin','Dublin', 'Galway', 'Cork'];
+
+   const love = ireland.map(name=> `I love ${name}`);
+    const loveChain = ireland
+                  .filter(name => name ==='Dublin')
+                  .map(name=> `I love ${name}!`);
+console.log(loveChain);
 </script>
 </body>
 
