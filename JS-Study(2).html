@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p id="id"></p>
+    <script>
+        let texto = {
+            title: 'Este é o título',
+            intro: 'Esta é a intro',
+            body: 'Este é o body',
+            tag: ["Tag1", "Tag2", "Tag3"]
+        }
+        const markup =`
+        <article>
+            <header>
+                <h1>${texto.title}</h1>
+                </header>
+                <section>
+                    <p>${texto.intro}</p>
+                </section>
+                    <footer>
+                        <ul>
+                        ${texto.tag.map((tag) => `<li>${tag}</li>`).join('')}
+                            </ul>
+                     </footer>
+            </article>
+        `;
+                document.getElementById("id").innerHTML = markup
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="divd"></div>
+<script>
+    const valor = [ 50.0, 200.0,150.0, 1800.0,];
+    const htmlPreco =valor.map(p => `<li>R$ ${p.toFixed(2)}</li>`).join('');
+document.getElementById("divd").innerHTML = htmlPreco;
+</script>
+</body>
+</html>
