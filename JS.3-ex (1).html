@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4</title>
+    <style>
+        .topoStyle{
+            display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <div class="topoStyle">
+        <button onclick="mostrarAluno()">Mostrar aluno</button>
+
+        <p id="userd">
+    
+    </p>
+</div>
+
+    <script>
+        let user = {
+            nome: 'Felipe',
+            idade: '17',
+            curso: 'Engenharia de Software',
+            cidade: 'Curitiba',
+            estado: 'Solteiro',
+        }
+        function mostrarAluno(){
+    const { nome, idade, curso, cidade, estado } = user;
+
+         document.getElementById("userd").innerHTML = 
+            `
+            Nome: ${nome} <br>
+            Idade: ${idade}<br>
+            Curso: ${curso}<br>
+            Cidade: ${cidade}<br>
+            Esado civil: ${estado}
+            `;
+
+        }
+
+</script>
+</body>
+</html>
