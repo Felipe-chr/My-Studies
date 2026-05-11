@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p id="id"></p>
+    <script>
+        let produto = {
+            nome: 'Chuveiro de Software',
+            preco: 1500.0,
+            quantidade: 5.0
+        }
+        document.getElementById("id").innerHTML = 
+        `
+        Produto: ${produto.nome}<br>
+        Preço: ${produto.preco}
+        `
+produto.preco+=100.0;
+console.log(produto.preco)
+    </script>
+</body>
+</html>

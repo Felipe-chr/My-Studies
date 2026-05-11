@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p id="id"></p>
+    <p id="ip"></p>
+<script>
+    let filme = {
+    titulo: 'Vingadores',
+	genero: 'Ação',
+	duracao: '1h50',
+	assistido: true,
+    }
+document.getElementById("id").innerHTML =
+`Título: ${filme.titulo} <br>
+Gênero: ${filme.genero} <br>
+Duração: ${filme.duracao} <br>
+`
+if(filme.assistido===true){
+    document.getElementById("ip").innerHTML =
+`Você já assistiu o filme ${filme.titulo}.
+`
+}
+else{
+     document.getElementById("ip").innerHTML =
+`Você não assistiu o filme ${filme.titulo}.
+`
+}
+</script>
+</body>
+</html>

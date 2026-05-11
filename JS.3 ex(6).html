@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <p id="id"></p>
+    <p id="ip"></p>
+<script>
+    let funcionario = {
+        nome: 'Felipe',
+        cargo: 'Engenheiro de Software',
+        salario: 5000.0,
+    }
+    document.getElementById("id").innerHTML =
+     `O salário do funcionário é: ${funcionario.salario}`
+     let aumento
+     aumento=funcionario.salario*0.10
+     funcionario.salario+=aumento
+document.getElementById("ip").innerHTML =
+     `O novo salário do funcionário é: ${funcionario.salario}`
+</script>
+</body>
+</html>

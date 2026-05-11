@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .div{
+            display:flex ;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="div">
+            <button onclick="mostarNota()">MOSTRAR NOTA</button>
+<button onclick="mostrarDiretor()">DIRETOR</button>
+    <p class="div" id="divd"></p>
+</div>
+    <script>
+        let filme = {
+            titulo: 'Uma Batalha Após a Outra',
+            ano: '2025',
+            genero: 'Drama',
+            nota: '7.7',
+            diretor: 'Paul Thomas Anderson',
+        };
+        function mostarNota(){
+            const {titulo, ano, genero, nota} = filme;
+            document.getElementById("divd").innerHTML =
+            `
+            Título: ${titulo}<br>
+            Ano: ${ano}<br>
+            Gênero: ${genero}<br>
+            Nota: ${nota};
+            `;
+        };
+        function mostrarDiretor(){
+            document.getElementById("divd").innerHTML =
+            `
+           Diretor: ${filme.diretor}
+            `;
+
+        }
+    </script>
+</body>
+</html>

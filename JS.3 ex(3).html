@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 4</title>
+
+</head>
+<body>
+   
+<p id="pd"> </p>
+
+    <script>
+        let aluno = {
+            nome: 'Felipe',
+            idade: '17',
+            curso: 'Engenharia de Software',
+           notaFinal: '7,0'
+        }
+        function mostrarAluno(){
+    const { nome, idade, curso, notaFinal} = aluno;
+
+         document.getElementById("pd").innerHTML = 
+            `
+            O aluno ${nome} do curso ${curso} tirou ${notaFinal}
+            
+            `;
+
+        }
+mostrarAluno()
+console.log(aluno)
+</script>
+</body>
+</html>
