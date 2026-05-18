@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        .container{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .tela{
+            display:flex ;
+            justify-content: first baseline;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgb(247, 247, 247);
+            height: 500px;
+            width: 300px;
+            border-radius:20px;
+            margin-right: 15px;
+
+        }
+        .input{
+            margin-bottom: 15px;
+        }
+        button{background-color: white;
+                border-radius: 20px;
+        }
+        button:hover{
+            background-color: rgb(228, 228, 228);
+        }
+        input{border-radius: 20px;
+        padding: 2px;
+    }
+    .p{display: flex;
+        justify-self: flex-start;
+        align-self: flex-start;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+        </style>
+</head>
+<body>
+<div class="container">
+   
+    <div class="tela">
+         <h1>
+        Cadastro de produto
+    </h1>
+        <div class="input">
+        <h2>
+            Cadastre o nome
+        </h2>
+            <input id="produtoId" type="text" placeholder=" Informe o nome:">
+            </div>
+       <div class="input">
+        <h2>
+            Cadastre a categoria
+        </h2>
+             <input id="categoriaId" type="text" placeholder=" Informe a categoria:">
+        </div>
+        <div class="input">
+        <h2>
+            Cadastre o valor
+        </h2>
+             <input id="valorId" type="number" placeholder=" Informe o valor:">
+        </div>
+        <button> CADASTRAR PRODUTO </button>
+    </div>
+    <div class="tela">
+        <p class="p" id="prodId">Nome do produto:</p>
+        <p class="p" id="catId">Categoria:</p>
+        <p class="p" id="vogID">Valor original:</p>
+        <p class="p" id="descId">Desconto aplicado:</p>
+        <p class="p" id="vfiId">Valor final:</p>
+    </div>
+</div>
+
+    <script>
+        const button = document.querySelector('button')
+        const produto = {
+             nome: document.getElementById("produtoId"),
+            categoria: document.getElementById("categoriaId"),
+            valor: document.getElementById("valorId"),
+            }
+        button.addEventListener('click', () =>{
+            const p = document.querySelectorAll('.p');
+             const nomeDigitado = document.getElementById("produtoId").value;
+    const categoriaDigitada = document.getElementById("categoriaId").value;
+    const valorDigitado = Number(document.getElementById("valorId").value);
+    let valorFinal =0.0
+    let valorDesconto = 0.0
+           
+
+    p[0].innerText = `Nome do produto: ${nomeDigitado}`;
+    p[1].innerText = `Categoria: ${categoriaDigitada}`;
+    p[2].innerText = `Valor original: R$ ${valorDigitado.toFixed(2)}`;
+     if(valorDigitado>1000.0){
+                valorDesconto=valorDigitado*0.10;
+                valorFinal=valorDigitado-valorDesconto;
+    p[3].innerText = `Desconto aplicado: R$${valorDesconto.toFixed(2)}`;
+            }
+            else{
+                valorFinal=valorDigitado
+    p[3].innerText = `Desconto aplicado: Sem desconto`
+            }
+    
+    p[4].innerText = `Valor final: R$ ${valorFinal.toFixed(2)}`;
+        })
+    </script>
+</body>
+</html>
