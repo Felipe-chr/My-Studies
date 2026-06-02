@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta Loja Inteligente</title>
+<style>
+    *{
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .container{
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        width: 100vw;
+        background-color: rgb(231, 227, 227);
+        padding-bottom: 40px;
+    }
+    .top{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        background-color: rgb(0, 0, 121);
+        width: 100vw;
+        height: 80px;
+    }
+    .box{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        min-height: 100px;
+        min-width: 200px;
+        gap: 8px;
+    }
+    .box button{
+        display: flex;
+        justify-content: center;   
+        align-items: center;       
+        min-height: 35px;          
+        min-width: 140px;         
+        background-color: aqua;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .box button:hover{
+        color: white;
+        background-color: rgb(33, 143, 143);
+    }
+    .box input{
+        display: flex;
+        justify-content: center;   
+        align-items: center;       
+        min-height: 35px;          
+        min-width: 60vw;         
+        border: 1px solid #ccc;
+        padding-left: 10px;
+    }
+    .resultado{
+        border: solid 2px black;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-start;
+        margin-left: 30px;
+        padding: 20px; 
+        background-color: white;
+        width: 90vw;
+        gap: 20px;
+    }
+    
+    .metricas-container {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+    .metricas-container p {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .produto-card {
+        display: flex;             
+        flex-direction: row;       
+        align-items: center;
+        gap: 20px;                
+        border-bottom: 1px dashed #ccc;
+        padding: 20px 0;
+    }
+    .produto-card:last-child {
+        border-bottom: none; 
+    }
+
+    .produto-img {
+        width: 80px;              
+        height: 80px;              
+        object-fit: contain;       
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+    }
+
+    .produto-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <h1>Consulta de loja inteligente</h1>
+            <p>Felipe da Silveira Christofis</p>
+        </div>
+        <div class="box">
+            <button id="buttonId">Carregar Produto</button>
+            <input type="text" id="inputId" placeholder="Filtre o produto por ID ou deixe vazio para ver todos:">
+        </div>
+
+        <div class="resultado" id="respostaId">
+            <p>Aguardando comando...</p>
+        </div>
+    </div>
+
+<script>
+    const button = document.getElementById('buttonId');
+    const input = document.getElementById('inputId');
+    const respostList = document.getElementById('respostaId');
+
+    button.addEventListener('click', apiVerif);
+
+    async function apiVerif() {
+        let post = input.value.trim();
+        
+        let url = post ? `https://fakestoreapi.com{post}` : `https://fakestoreapi.com`;
+        
+        respostList.innerHTML = "<p>Carregando dados...</p>";
+
+        try {
+            let resposta = await fetch(url);
+            
+            if (!resposta.ok) {
+                respostList.innerHTML = `<p style="color: red;">Post/Produto não encontrado.</p>`;
+                return;
+            }
+            
+            let dados = await resposta.json();
+            respostList.innerHTML = ''; 
+
+            if (Array.isArray(dados)) {
+                const totalProdutos = dados.length;
+                
+                const somaPrecos = dados.reduce((acumulador, produto) => acumulador + produto.price, 0);
+                const mediaPrecos = totalProdutos > 0 ? (somaPrecos / totalProdutos).toFixed(2) : 0;
+                
+                const maiorPreco = Math.max(...dados.map(produto => produto.price));
+                const produtoMaisCaro = dados.find(produto => produto.price === maiorPreco);
+
+                respostList.innerHTML = `
+                    <h1>Resumo da loja</h1>
+                    <div class="metricas-container">
+                        <p><strong>Média de preços:</strong> $${mediaPrecos}</p>
+                        <p><strong>Produto mais caro:</strong> $${maiorPreco} (${produtoMaisCaro ? produtoMaisCaro.title : 'N/A'})</p>
+                        <p><strong>Total de produtos listados:</strong> ${totalProdutos}</p>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid black; margin: 10px 0;">
+                `;
+                
+                dados.forEach(produto => {
+                    respostList.innerHTML += `
+                        <div class="produto-card">
+                            <img src="${produto.image}" alt="${produto.title}" class="produto-img">
+                            <div class="produto-info">
+                                <h3>ID: ${produto.id} - ${produto.title}</h3>
+                                <p><strong>Preço:</strong> $${produto.price}</p>
+                                <p><strong>Categoria:</strong> ${produto.category}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } 
+            else if (dados && dados.id) {
+                respostList.innerHTML = `
+                    <h1>Resultado da Busca</h1>
+                    <div class="produto-card">
+                        <img src="${dados.image}" alt="${dados.title}" class="produto-img" style="width: 120px; height: 120px;">
+                        <div class="produto-info">
+                            <h3>ID: ${dados.id} - ${dados.title}</h3>
+                            <p><strong>Preço:</strong> $${dados.price}</p>
+                            <p><strong>Categoria:</strong> ${dados.category}</p>
+                            <p><strong>Descrição:</strong> ${dados.description}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                respostList.innerHTML = `<p>Nenhum produto encontrado.</p>`;
+            }
+            
+        } catch(erro) {
+            console.error("Erro na requisição:", erro);
+            respostList.innerHTML = `<p style="color: red;">Não foi possível conectar à API.</p>`;
+        }
+    }
+</script>
+</body>
+</html>

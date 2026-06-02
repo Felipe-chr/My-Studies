@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho Prático - Catálogo Inteligente</title>
+<style>
+    * {
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        width: 100vw;
+        background-color: rgb(231, 227, 227);
+        padding-bottom: 40px;
+    }
+    .top {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        background-color: rgb(0, 0, 121);
+        width: 100vw;
+        height: 80px;
+    }
+    .box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        min-height: 100px;
+        min-width: 200px;
+        gap: 8px;
+    }
+    .box button {
+        display: flex;
+        justify-content: center;   
+        align-items: center;       
+        min-height: 35px;          
+        min-width: 150px;         
+        background-color: aqua;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .box button:hover {
+        color: white;
+        background-color: rgb(33, 143, 143);
+    }
+    .box input {
+        display: flex;
+        justify-content: center;   
+        align-items: center;       
+        min-height: 35px;          
+        min-width: 60vw;         
+        border: 1px solid #ccc;
+        padding-left: 10px;
+    }
+    .resultado {
+        border: solid 2px black;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-start;
+        margin-left: 30px;
+        padding: 20px; 
+        background-color: white;
+        width: 90vw;
+        gap: 20px;
+    }
+    
+    .metricas-container {
+        background-color: #f4f6f9;
+        border: 1px solid #000079;
+        padding: 15px;
+        border-radius: 6px;
+    }
+    .metricas-container p {
+        margin: 6px 0;
+        font-size: 16px;
+    }
+
+    .produto-card {
+        display: flex;             
+        flex-direction: row;       
+        align-items: center;
+        gap: 20px;                
+        border-bottom: 1px dashed #ccc;
+        padding: 20px 0;
+    }
+    .produto-card:last-child {
+        border-bottom: none; 
+    }
+    .produto-img {
+        width: 90px;              
+        height: 90px;              
+        object-fit: contain;       
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #eee;
+    }
+    .produto-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        border-radius: 4px;
+        width: max-content;
+        margin-top: 4px;
+    }
+    .barato { background-color: green; }
+    .intermediario { background-color: orange; }
+    .caro { background-color: red; }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <h1>Catálogo Inteligente com API</h1>
+            <p>Aluno: Felipe da Silveira Christofis</p>
+        </div>
+        
+        <div class="box">
+            <button id="buttonId">Carregar Produtos</button>
+            <input type="text" id="inputId" placeholder="Filtre por nome ou categoria (ex: homem, mulher, jewelery)...">
+        </div>
+
+        <div class="resultado" id="respostaId">
+            <p>Clique em "Carregar Produtos" para iniciar a consulta à API.</p>
+        </div>
+    </div>
+
+<script>
+    const button = document.getElementById('buttonId');
+    const input = document.getElementById('inputId');
+    const respostList = document.getElementById('respostaId');
+    
+    let todosOsProdutos = [];
+
+    button.addEventListener('click', carregarDadosAPI);
+    
+    input.addEventListener('input', filtrarEExibirProdutos);
+
+    async function carregarDadosAPI() {
+        let url = `https://fakestoreapi.com/products`;
+        respostList.innerHTML = "<p>Carregando dados da API...</p>";
+
+        try {
+            let resposta = await fetch(url);
+            if (!resposta.ok) {
+                respostList.innerHTML = `<p style="color: red;">Erro ao buscar dados do servidor.</p>`;
+                return;
+            }
+            todosOsProdutos = await resposta.json(); 
+            
+            filtrarEExibirProdutos();
+
+        } catch(erro) {
+            console.error("Erro:", erro);
+            respostList.innerHTML = `<p style="color: red;">Falha de conexão com a API.</p>`;
+        }
+    }
+
+    function filtrarEExibirProdutos() {
+        if (todosOsProdutos.length === 0) return;
+
+        let termoDaBusca = input.value.toLowerCase().trim();
+
+        let produtosFiltrados = todosOsProdutos.filter(produto => {
+            return produto.title.toLowerCase().includes(termoDaBusca) || 
+                   produto.category.toLowerCase().includes(termoDaBusca);
+        });
+
+        if (produtosFiltrados.length === 0) {
+            respostList.innerHTML = `<h1>Resultados</h1><p>Nenhum produto corresponde ao filtro aplicado.</p>`;
+            return;
+        }
+
+        let totalValores = 0;
+        let valorMaisCaro = 0;
+        let nomeMaisCaro = "";
+        let contadorCaros = 0;
+
+        produtosFiltrados.forEach(produto => {
+            totalValores += produto.price;
+
+            if (produto.price > valorMaisCaro) {
+                valorMaisCaro = produto.price;
+                nomeMaisCaro = produto.title;
+            }
+
+            if (produto.price > 100) {
+                contadorCaros++;
+            }
+        });
+
+        let resumoLoja = {
+            totalProdutos: produtosFiltrados.length,
+            mediaPrecos: (totalValores / produtosFiltrados.length).toFixed(2),
+            produtoMaisCaro: `$${valorMaisCaro} (${nomeMaisCaro})`,
+            quantidadeProdutosCaros: contadorCaros
+        };
+
+        respostList.innerHTML = `
+            <h1>Resumo dos dados</h1>
+            <div class="metricas-container">
+                <p><strong>Total de produtos carregados:</strong> ${resumoLoja.totalProdutos}</p>
+                <p><strong>Média dos preços:</strong> $${resumoLoja.mediaPrecos}</p>
+                <p><strong>Produto mais caro:</strong> ${resumoLoja.produtoMaisCaro}</p>
+                <p><strong>Quantidade de produtos classificados como caros:</strong> ${resumoLoja.quantidadeProdutosCaros}</p>
+            </div>
+            <hr style="border: 0; border-top: 2px solid #000; margin: 10px 0;">
+            <h2>Lista de Produtos</h2>
+        `;
+
+        produtosFiltrados.forEach(produto => {
+            let classeBadge = "";
+            let textoClassificacao = "";
+
+            if (produto.price < 50) {
+                classeBadge = "barato";
+                textoClassificacao = "Produto barato";
+            } else if (produto.price >= 50 && produto.price <= 100) {
+                classeBadge = "intermediario";
+                textoClassificacao = "Produto intermediário";
+            } else {
+                classeBadge = "caro";
+                textoClassificacao = "Produto caro";
+            }
+
+            let descricaoResumida = produto.description.length > 120 
+                ? produto.description.substring(0, 120) + "..." 
+                : produto.description;
+
+            respostList.innerHTML += `
+                <div class="produto-card">
+                    <img src="${produto.image}" alt="${produto.title}" class="produto-img">
+                    <div class="produto-info">
+                        <h3>${produto.title}</h3>
+                        <p><strong>Categoria:</strong> ${produto.category}</p>
+                        <p><strong>Preço:</strong> $${produto.price.toFixed(2)}</p>
+                        <p><strong>Descrição:</strong> ${descricaoResumida}</p>
+                        <span class="badge ${classeBadge}">${textoClassificacao}</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+</script>
+</body>
+</html>
